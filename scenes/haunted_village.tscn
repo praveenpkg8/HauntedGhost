@@ -1,0 +1,57 @@
+[gd_scene load_steps=9 format=3 uid="uid://bw10uurpakej3"]
+
+[ext_resource type="Script" path="res://scripts/haunted_village.gd" id="1_dd66g"]
+[ext_resource type="Script" path="res://scripts/gui.gd" id="1_w4fdl"]
+[ext_resource type="PackedScene" uid="uid://dd85l756erbau" path="res://scenes/player.tscn" id="3_dwqyn"]
+[ext_resource type="Script" path="res://scripts/constructable_area.gd" id="3_f3s6f"]
+[ext_resource type="Script" path="res://scripts/day_and_night.gd" id="3_slbtw"]
+[ext_resource type="Script" path="res://scripts/mountain_generation.gd" id="6_ia1ku"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_ltx7r"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1vto2"]
+
+[node name="HauntedVillage" type="Node2D"]
+script = ExtResource("1_dd66g")
+
+[node name="GUI" type="CanvasLayer" parent="."]
+script = ExtResource("1_w4fdl")
+
+[node name="Panel" type="Panel" parent="GUI"]
+offset_left = 286.0
+offset_top = 579.0
+offset_right = 326.0
+offset_bottom = 619.0
+scale = Vector2(14.4761, 1.61155)
+
+[node name="ConsResource" type="GridContainer" parent="GUI"]
+offset_left = 257.0
+offset_top = 590.0
+offset_right = 297.0
+offset_bottom = 630.0
+columns = 8
+
+[node name="ConstructableArea" type="Area2D" parent="." groups=["is_constructable_area"]]
+script = ExtResource("3_f3s6f")
+
+[node name="Polygon2D" type="Polygon2D" parent="ConstructableArea"]
+position = Vector2(996, 240)
+scale = Vector2(152.422, 142.106)
+color = Color(0.423734, 0.568675, 0.324474, 1)
+texture = SubResource("CanvasTexture_ltx7r")
+polygon = PackedVector2Array(-4.70294, 0.0194998, -3.88262, -1.59769, -3.88262, -1.59769, -1.73419, -1.58988, -0.921687, 0.253875, -1.43731, 1.90231, -3.02325, 2.37106, -4.6795, 1.2695)
+uv = PackedVector2Array(-4.70294, 0.0194998, -3.88262, -1.59769, -3.88262, -1.59769, -1.73419, -1.58988, -0.921687, 0.253875, -1.43731, 1.90231, -3.02325, 2.37106, -4.6795, 1.2695)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ConstructableArea"]
+position = Vector2(564, 283)
+scale = Vector2(27.36, 27.36)
+shape = SubResource("CircleShape2D_1vto2")
+
+[node name="DayNightCycle" type="Node" parent="."]
+script = ExtResource("3_slbtw")
+
+[node name="mountain" type="Node2D" parent="."]
+script = ExtResource("6_ia1ku")
+
+[node name="player" parent="." instance=ExtResource("3_dwqyn")]
+position = Vector2(575, 272)

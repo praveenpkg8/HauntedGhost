@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://cgcxvcmsq62kr"]
+
+[ext_resource type="Script" path="res://scripts/construct_unit_loader.gd" id="1_fcy7h"]
+[ext_resource type="Script" path="res://scripts/construct_unit_area.gd" id="2_8x87o"]
+[ext_resource type="Texture2D" uid="uid://3wr26uxh4bhe" path="res://assets/loadbar.png" id="2_rucq4"]
+[ext_resource type="Texture2D" uid="uid://b6g7t2r8dnugn" path="res://assets/resource_requirement.png" id="3_h5mlw"]
+
+[node name="ConstructUnitLoader" type="Node2D"]
+script = ExtResource("1_fcy7h")
+
+[node name="ContructArea2D" type="Area2D" parent="."]
+script = ExtResource("2_8x87o")
+
+[node name="Sprite2D" type="Sprite2D" parent="ContructArea2D"]
+
+[node name="LoaderUnit" type="Sprite2D" parent="."]
+position = Vector2(0, 43)
+scale = Vector2(0.09, 0.125)
+texture = ExtResource("2_rucq4")
+
+[node name="ResourceRequirement" type="Sprite2D" parent="."]
+position = Vector2(48, -40)
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("3_h5mlw")

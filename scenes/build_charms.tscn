@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://3n4o8i3xtthb"]
+
+[node name="Build Charms" type="Node2D"]
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(508, 329, 553, 330, 550, 373, 511, 371)
