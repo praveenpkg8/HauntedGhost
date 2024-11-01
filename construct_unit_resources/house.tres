@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ConstructUnit" load_steps=3 format=3 uid="uid://ds5kyldkfc5i1"]
+
+[ext_resource type="Script" path="res://scripts/construct_unit.gd" id="1_26e8i"]
+[ext_resource type="Texture2D" uid="uid://yp3t8qv5a36t" path="res://assets/house.png" id="2_x06d2"]
+
+[resource]
+script = ExtResource("1_26e8i")
+type = 0
+name = "House"
+description = "House for rest and family"
+texture = ExtResource("2_x06d2")
+build_timing = 5.0
+build_guide = {}

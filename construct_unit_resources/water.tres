@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ConstructUnit" load_steps=3 format=3 uid="uid://c54qa4aj5vukf"]
+
+[ext_resource type="Script" path="res://scripts/construct_unit.gd" id="1_i6vmn"]
+[ext_resource type="Texture2D" uid="uid://h7nj13ydt16t" path="res://assets/pond.png" id="2_2futm"]
+
+[resource]
+script = ExtResource("1_i6vmn")
+type = 0
+name = "water"
+description = "water resource for various usage"
+texture = ExtResource("2_2futm")
+build_timing = 5.0
+build_guide = {
+"sand": 3.0
+}

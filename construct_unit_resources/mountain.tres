@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ConstructUnit" load_steps=3 format=3 uid="uid://jutn84fyvfa3"]
+
+[ext_resource type="Script" path="res://scripts/construct_unit.gd" id="1_1lonu"]
+[ext_resource type="Texture2D" uid="uid://dherftsbrvsky" path="res://assets/mountain.png" id="2_10fkl"]
+
+[resource]
+script = ExtResource("1_1lonu")
+type = 0
+name = "mountain"
+description = "Mountain Virture"
+texture = ExtResource("2_10fkl")
+build_timing = 5.0
+build_guide = {}
