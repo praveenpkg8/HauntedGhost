@@ -17,3 +17,6 @@ mono_crash.*.json
 
 # Mac
 *.DS_Store
+
+# VS code specifics
+.vscode/
