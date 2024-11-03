@@ -7,17 +7,22 @@ var global_event_bus: GlobalEventBus
 
 func init(_data: ConstructUnit, _global_event_bus: GlobalEventBus) -> void:
 	data = _data
+	texture = data.texture
 	global_event_bus = _global_event_bus
+	tooltip_text = "%s\n%s" % [data.name, data.description]
+	
+	
 
 	
 
 func _ready() -> void:
 	expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	texture = data.texture
-	#tooltip_text = "%s\n%s" % [data.name, data.description]
 	connect("mouse_entered", _on_item_mouse_entered)
 	connect("mouse_exited", _on_item_mouse_exited)
+	pass
+	
+	
 
 func _on_item_mouse_entered():
 	scale = Vector2(1.25, 1.25)
