@@ -9,6 +9,7 @@ var sprite_2d: Sprite2D
 var second_timer: Timer
 var custom_loader_dict: Dictionary
 var vector_position: Vector2
+@export var construct_rect_size = Vector2(64, 64)
 
 signal custom_loader_free(loader_component: Sprite2D)
 signal resource_collected(resource)
@@ -46,19 +47,20 @@ func init(
 	global_day_night_cycle = _global_day_night_cycle
 	global_event_bus = _global_event_bus
 	second_timer = global_day_night_cycle.second_timer
-	var build_guide = _cons_item.data.build_guide
 	custom_loader_dict = _custom_loader_dict
 
 	var collision_shape: CollisionShape2D = CollisionShape2D.new()
 	var rect_shape: RectangleShape2D = RectangleShape2D.new()
 	var build_timing: float = _cons_item.data.build_timing
 
-	var texture_rect_size = _cons_item.get_size()
-	rect_shape.extents = texture_rect_size / 2
+	
 
 	collision_shape.shape = rect_shape
 	sprite_2d.texture = _cons_item.texture
 	var texture_size = sprite_2d.texture.get_size()
+	#var texture_rect_size = _cons_item.get_size()
+	var texture_rect_size = construct_rect_size
+	rect_shape.extents = texture_rect_size / 2
 	sprite_2d.scale = texture_rect_size / texture_size
 
 	add_child(sprite_2d)
