@@ -23,7 +23,6 @@ func construct_mountain(
 	global_day_night_cycle = _global_day_night_cycle
 	global_event_bus = _global_event_bus
 	position = get_viewport_rect().size / 2  # Center the node on the screen
-	print(position)
 	LIST_OF_MOUNTAINS.append_array(draw_mountain_ellipse())
 	LIST_OF_MOUNTAINS.append_array(draw_mountain_ellipse(1))
 	return LIST_OF_MOUNTAINS
@@ -58,9 +57,7 @@ func place_mountain_sprite(
 	radius_x: float,
 	radius_y: float,
 	) -> ConstructAreaUnit:
-	# Create the Area2D to act as the parent container
 	var area = ConstructAreaUnit.new()
-	area.init_global_day_night_cycle(global_day_night_cycle)
 
 
 	var x = radius_x * cos(angle)
@@ -68,8 +65,8 @@ func place_mountain_sprite(
 	var cons_position = Vector2(x, y) + position
 	var cons_item: ConstructItem = ConstructItem.new()
 	cons_item.init(load(MOUNTAIN), global_event_bus)
+	cons_item.set_custom_minimum_size(Vector2(64, 64))  
 	add_child(cons_item)
-	add_child(area)
 	area.init(
 		cons_item,
 		cons_position,
@@ -78,36 +75,4 @@ func place_mountain_sprite(
 		{}
 	)
 	area.position = cons_position
-	print(cons_item.texture != null, area.position)
-	
-
-	## Create and configure the Sprite2D
-	##var sprite = MOUNTAIN_SCENE.instantiate() as Sprite2D
-	#var sprite = Sprite2D.new()
-	#sprite.position = Vector2.ZERO  # Position the sprite at the origin of the Area2D
-	#area.add_child(sprite)
-#
-#
-	## Create a CollisionShape2D for the Area2D based on the sprite's size
-	#var collision_shape = CollisionShape2D.new()
-	#var shape = RectangleShape2D.new()
-#
-	## Calculate the collision shape size based on the sprite's texture size and scale
-	  ## Adjust for the sprite's scale
-		#
-	#var target_size = Vector2(64, 64)
-	#sprite.texture = MOUNTAIN.texture
-	#var texture_size = sprite.texture.get_size()
-	#var scale_factor = target_size / texture_size
-	#sprite.scale = scale_factor
-#
-	#if sprite.texture != null:
-		#shape.size = texture_size * sprite.scale
-#
-	#collision_shape.shape = shape
-	#collision_shape.position = Vector2.ZERO
-	  ## Align collision shape with the origin of Area2D
-#
-	#area.add_child(collision_shape)
-	#add_child(area)
-	return area  # Return the Area2D with the sprite and collision shape inside
+	return area
