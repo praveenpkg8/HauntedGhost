@@ -59,16 +59,13 @@ func place_mountain_sprite(
 	) -> ConstructAreaUnit:
 	var area = ConstructAreaUnit.new()
 
-
+	area.is_constructed = true
 	var x = radius_x * cos(angle)
 	var y = radius_y * sin(angle)
 	var cons_position = Vector2(x, y) + position
-	var cons_item: ConstructItem = ConstructItem.new()
-	cons_item.init(load(MOUNTAIN), global_event_bus)
-	cons_item.set_custom_minimum_size(Vector2(64, 64))  
-	add_child(cons_item)
+	var cons_unit: ConstructUnit = load(MOUNTAIN).duplicate()
 	area.init(
-		cons_item,
+		MOUNTAIN,
 		cons_position,
 		global_day_night_cycle,
 		global_event_bus,

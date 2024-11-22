@@ -2,11 +2,14 @@ class_name ConstructItem
 extends TextureRect
 
 @export var data: ConstructUnit
+var construct_res: String
 var global_event_bus: GlobalEventBus
 
 
-func init(_data: ConstructUnit, _global_event_bus: GlobalEventBus) -> void:
-	data = _data
+func init(_construct_res, _global_event_bus: GlobalEventBus) -> void:
+	construct_res = _construct_res
+	print("construct_res ", typeof(construct_res))
+	data = load(construct_res)
 	texture = data.texture
 	global_event_bus = _global_event_bus
 	tooltip_text = "%s\n%s" % [data.name, data.description]

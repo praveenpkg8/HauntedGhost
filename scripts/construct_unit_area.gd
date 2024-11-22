@@ -9,6 +9,10 @@ var sprite_2d: Sprite2D
 var second_timer: Timer
 var custom_loader_dict: Dictionary
 var vector_position: Vector2
+var mouse_position: Vector2
+#var cons_item: ConstructItem
+var cons_unit: ConstructUnit
+var is_constructed: bool = false
 @export var construct_rect_size = Vector2(64, 64)
 
 signal custom_loader_free(loader_component: Sprite2D)
@@ -17,16 +21,21 @@ signal resource_collected(resource)
 signal push_for_build_resource(resource, build_material)
 
 
-func _on_body_entered(body):
+func _on_body_entered(body: Player):
 	if body.has_method("move_to_position"):
 		body.has_resource = true
-		print("Emitting signal from:", self.name)
 		emit_signal("resource_collected", self)  # Emit signal with self
+		var resoucer_unit = get_extractable_unit()
+		if not is_constructed:
+			body.is_available = true
+		if resoucer_unit == 0:
+			queue_free()
+		
+			
 		
 
 func _ready() -> void:
-	sprite_2d = $Sprite2D
-	connect("body_entered", _on_body_entered)
+	pass
 
 
 func init_global_day_night_cycle(_global_day_night_cycle: GlobalDayNightCycle):
@@ -35,39 +44,42 @@ func init_global_day_night_cycle(_global_day_night_cycle: GlobalDayNightCycle):
 
 
 func init(
-	_cons_item: ConstructItem,
-	mouse_position: Vector2,
+	cons_unit_res: String,
+	_mouse_position: Vector2,
 	_global_day_night_cycle: GlobalDayNightCycle,
 	_global_event_bus: GlobalEventBus,
 	_custom_loader_dict: Dictionary
 ):
+	mouse_position = _mouse_position
 	sprite_2d = Sprite2D.new()
-	#sprite_2d = $Sprite2D
+	connect("body_entered", _on_body_entered)
+	cons_unit = load(cons_unit_res).duplicate()
 	
 	global_day_night_cycle = _global_day_night_cycle
 	global_event_bus = _global_event_bus
-	second_timer = global_day_night_cycle.second_timer
+	#second_timer = global_day_night_cycle.second_timer
 	custom_loader_dict = _custom_loader_dict
 
 	var collision_shape: CollisionShape2D = CollisionShape2D.new()
 	var rect_shape: RectangleShape2D = RectangleShape2D.new()
-	var build_timing: float = _cons_item.data.build_timing
+	var build_timing: float = cons_unit.build_timing
 
 	
 
 	collision_shape.shape = rect_shape
-	sprite_2d.texture = _cons_item.texture
+	sprite_2d.texture = cons_unit.texture
 	var texture_size = sprite_2d.texture.get_size()
 	#var texture_rect_size = _cons_item.get_size()
 	var texture_rect_size = construct_rect_size
 	rect_shape.extents = texture_rect_size / 2
 	sprite_2d.scale = texture_rect_size / texture_size
+	#position = mouse_position
 
 	add_child(sprite_2d)
 	add_child(collision_shape)
 
 	_init_build_timer(build_timing)
-	second_timer.connect("timeout", _on_fire_each_sec)
+	#second_timer.connect("timeout", _on_fire_each_sec)
 	add_child(build_timer)
 
 	
@@ -83,6 +95,23 @@ func _init_build_timer(build_timing=5.0):
 	build_timer.autostart = true
 	build_timer.connect("timeout", _on_builded)
 
+func get_extractable_resource() -> float:
+	return cons_unit.extractable_unit
+
+
+func get_extractable_unit() -> float:
+	return cons_unit.extractable_unit
+
+
+func set_extractable_unit(modified_value: float):
+	cons_unit.extractable_unit = modified_value
+
+
+func get_build_material_ref_list() -> Array[BuildGuide]:
+	var build_material_ref_list: Array = []
+	var build_guide: Array[BuildGuide] = cons_unit.build_guide
+	return build_guide
+
 
 func _on_builded() -> void:
 	pass
@@ -91,11 +120,8 @@ func _on_builded() -> void:
 	#second_timer.disconnect("timeout", _on_fire_each_sec)
 	
 	
-func _on_fire_each_sec(build_guide: Dictionary) -> void:
-	print("calling ", build_guide)
-	for key in build_guide.keys():
-		for i in range(build_guide[key]):
-			global_event_bus.emit_signal("push_for_building", build_guide[key])
+func _on_fire_each_sec() -> void:
+	print("calling ")
 
 
 func _pause_builder_on_night():
@@ -104,5 +130,6 @@ func _pause_builder_on_night():
 
 
 func _process(delta: float) -> void:
-	global_day_night_cycle.get_current_date_time()
-	_pause_builder_on_night()
+	#global_day_night_cycle.get_current_date_time()
+	#_pause_builder_on_night()
+	pass

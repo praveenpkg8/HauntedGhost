@@ -3,7 +3,7 @@ extends CanvasLayer
 
 var cons_resource_size: int = 8
 var ConsResource: GridContainer
-var ConstructLoadUnits = [
+var ConstructLoadUnits: Array[String] = [
 	"res://construct_unit_resources/house.tres",
 	"res://construct_unit_resources/water.tres"
 ]
@@ -27,7 +27,7 @@ func init(global_event_bus: GlobalEventBus):
 
 	for i in ConstructLoadUnits.size():
 		var cons_item: ConstructItem = ConstructItem.new()
-		cons_item.init(load(ConstructLoadUnits[i]), global_event_bus)
+		cons_item.init(ConstructLoadUnits[i], global_event_bus)
 		print(cons_item.data.name)
 		ConsResource.get_child(i).add_child(cons_item)
 

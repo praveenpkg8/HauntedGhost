@@ -9,8 +9,9 @@ var element: String
 var _cons_item: ConstructItem
 var global_day_night_cycle: GlobalDayNightCycle
 const CONSTRUCT_UNIT_LOADER = preload("res://scenes/construct_unit_loader.tscn")
-var build_pipeline: Array = []
+var build_pipeline: Array[ConstructUnitLoader] = []
 var collected_resource: Dictionary = {}
+var is_constuction_going = true
 
 @onready var player: CharacterBody2D = $player
 var resource_manager: ResourceManager
@@ -36,7 +37,8 @@ func _ready() -> void:
 	global_event_bus.connect("is_allowed_to_construct", _check_is_allowed_to_build)
 	
 	resource_manager = ResourceManager.new()
-	#add_child(resource_manager)
+	add_child(resource_manager)
+	resource_manager.player_list.append(player)
 	border_resource = BorderResource.new()
 	add_child(border_resource)
 	var resource_pool = border_resource.construct_mountain(
@@ -45,7 +47,7 @@ func _ready() -> void:
 		)
 	for _res in resource_pool:
 		add_child(_res)
-		resource_container["sand"].append(_res)
+		resource_manager.resource_container["sand"].append(_res)
 
 
 func _process(delta: float) -> void:
@@ -59,10 +61,9 @@ func _process(delta: float) -> void:
 		is_dragged = false
 		_cons_item = null
 
-	var cons_build_guide: ConstructUnitLoader = get_construct_build_pipeline()
-	construct_build_item(cons_build_guide)
-	if cons_build_guide:
-		print("cons_build_guide ", cons_build_guide)
+
+	resource_manager.assign_task_to_players()
+
 
 
 func _check_is_allowed_to_build(_is_allowed_to_build: bool):
@@ -73,28 +74,21 @@ func populate_construction_site(mouse_position: Vector2):
 	
 	if is_position_occupied(mouse_position):
 		return  # Stop if the position is already occupied
-		
-	var construct_unit_loader: ConstructUnitLoader = CONSTRUCT_UNIT_LOADER.instantiate()
-	add_child(construct_unit_loader)
+
+	var construct_unit_loader: ConstructUnitLoader = (CONSTRUCT_UNIT_LOADER
+		.instantiate().duplicate())
+	var cons_unit_res: String = _cons_item.construct_res
 	construct_unit_loader.init(
-		_cons_item,
+		cons_unit_res,
 		mouse_position,
 		global_day_night_cycle,
 		global_event_bus
 	)
-	build_pipeline.append(construct_unit_loader)
-	for _build in build_pipeline:
-		var build_guide = _build.cons_item.data.build_guide
-		for build_material in build_guide:
-			for i in range(build_guide[build_material]):
-				print("buidAmount ", build_guide[build_material])
-				var _res = resource_container[build_material].pop_front()
-				
-				resource_manager.init(
-					player,
-					_res,
-					mouse_position
-				)
+	add_child(construct_unit_loader)
+	get_tree().root.print_tree()
+	
+	resource_manager.build_pipeline.append(construct_unit_loader.contruct_area_2d)
+	print("res_mng ", resource_manager.build_pipeline)
  
 
 func construct_build_item(unit_loader: ConstructUnitLoader):
@@ -117,6 +111,5 @@ func get_construct_build_pipeline() -> ConstructUnitLoader:
 
 func _print_component_dragged(cons_item: TextureRect):
 	_cons_item = cons_item
-	element = "home"
 	is_dragged = true
 	
