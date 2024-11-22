@@ -52,6 +52,12 @@ script = ExtResource("3_slbtw")
 
 [node name="mountain" type="Node2D" parent="."]
 script = ExtResource("6_ia1ku")
+radius_x = null
+radius_y = null
+points_count = null
+max_mountain_height = null
+flat_probability = null
 
 [node name="player" parent="." instance=ExtResource("3_dwqyn")]
 position = Vector2(575, 272)
+speed = null

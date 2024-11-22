@@ -1,13 +1,28 @@
 [gd_scene load_steps=4 format=3 uid="uid://0aw4akejtokc"]
 
-[ext_resource type="Script" path="res://scripts/resource.gd" id="1_ua5qd"]
 [ext_resource type="Texture2D" uid="uid://yp3t8qv5a36t" path="res://assets/house.png" id="2_yol0i"]
+
+[sub_resource type="GDScript" id="GDScript_5nm0l"]
+script/source = "class_name ResourceItem
+extends Area2D
+
+signal resource_collected(resource)
+
+func _ready():
+	connect(\"body_entered\", _on_body_entered)
+
+func _on_body_entered(body):
+	if body.has_method(\"move_to_position\"):
+		body.has_resource = true
+		print(\"Emitting signal from:\", self.name)
+		emit_signal(\"resource_collected\", self)  # Emit signal with self
+"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xbcpt"]
 
 [node name="resource" type="Area2D"]
 scale = Vector2(0.12, 0.12)
-script = ExtResource("1_ua5qd")
+script = SubResource("GDScript_5nm0l")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_yol0i")
