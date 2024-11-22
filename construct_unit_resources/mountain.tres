@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="ConstructUnit" load_steps=3 format=3 uid="uid://jutn84fyvfa3"]
+[gd_resource type="Resource" script_class="ConstructUnit" load_steps=4 format=3 uid="uid://jutn84fyvfa3"]
 
 [ext_resource type="Script" path="res://scripts/construct_unit.gd" id="1_1lonu"]
+[ext_resource type="Script" path="res://construct_unit_resources/resource_script/build_guide.gd" id="1_amna3"]
 [ext_resource type="Texture2D" uid="uid://dherftsbrvsky" path="res://assets/mountain.png" id="2_10fkl"]
 
 [resource]
@@ -10,4 +11,5 @@ name = "mountain"
 description = "Mountain Virture"
 texture = ExtResource("2_10fkl")
 build_timing = 5.0
-build_guide = {}
+extractable_unit = 3.0
+build_guide = Array[ExtResource("1_amna3")]([])

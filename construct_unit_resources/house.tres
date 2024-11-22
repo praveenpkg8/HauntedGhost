@@ -10,4 +10,4 @@ name = "House"
 description = "House for rest and family"
 texture = ExtResource("2_x06d2")
 build_timing = 5.0
-build_guide = {}
+extractable_unit = 0.0

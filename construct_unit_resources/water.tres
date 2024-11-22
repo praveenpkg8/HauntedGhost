@@ -1,7 +1,13 @@
-[gd_resource type="Resource" script_class="ConstructUnit" load_steps=3 format=3 uid="uid://c54qa4aj5vukf"]
+[gd_resource type="Resource" script_class="ConstructUnit" load_steps=5 format=3 uid="uid://c54qa4aj5vukf"]
 
 [ext_resource type="Script" path="res://scripts/construct_unit.gd" id="1_i6vmn"]
+[ext_resource type="Script" path="res://construct_unit_resources/resource_script/build_guide.gd" id="1_lnj2s"]
 [ext_resource type="Texture2D" uid="uid://h7nj13ydt16t" path="res://assets/pond.png" id="2_2futm"]
+
+[sub_resource type="Resource" id="Resource_ll304"]
+script = ExtResource("1_lnj2s")
+name = "sand"
+resource_required = 7.0
 
 [resource]
 script = ExtResource("1_i6vmn")
@@ -10,6 +16,5 @@ name = "water"
 description = "water resource for various usage"
 texture = ExtResource("2_2futm")
 build_timing = 5.0
-build_guide = {
-"sand": 3.0
-}
+extractable_unit = 12.0
+build_guide = Array[ExtResource("1_lnj2s")]([SubResource("Resource_ll304")])
